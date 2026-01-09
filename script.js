@@ -1,9 +1,5 @@
 "use strict";
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// BANKIST APP
-
 // Data
 const account1 = {
   owner: "Jonas Schmedtmann",
@@ -61,10 +57,6 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
-
 const currencies = new Map([
   ["USD", "United States dollar"],
   ["EUR", "Euro"],
@@ -73,4 +65,39 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = "";
+  movements.forEach(function (movement, index) {
+    const type = movement > 0 ? "deposit" : "withdrawal";
+    index++;
+    const html = `
+      <div class="movements__row">
+          <div class="movements__type movements__type--${type}">${index}  </div>
+          <div class="movements__date">3 days ago</div>
+          <div class="movements__value">${movement}</div>
+        </div>
+    `;
+    containerMovements.insertAdjacentHTML("afterbegin", html);
+  });
+};
+
+displayMovements(account1.movements);
 /////////////////////////////////////////////////
+
+const juliaArr = [3, 5, 2, 12, 7];
+const katesArr = [4, 1, 15, 8, 3];
+const juliaArr1 = [9, 16, 6, 8, 3];
+const katesArr1 = [10, 5, 6, 1, 4];
+
+const checkDogs = function (juliaArr, katArr) {
+  const shallowCopyCats = juliaArr.slice();
+  shallowCopyCats.splice(-2);
+  console.log(shallowCopyCats);
+  const allDogsArr = shallowCopyCats.concat(katArr);
+  allDogsArr.forEach(function (dog, index) {
+    index++;
+    console.log(
+      dog > 3 ? `Dog number ${index} is Adult` : `Dog number ${index} is puppy`
+    );
+  });
+};
