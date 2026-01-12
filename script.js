@@ -101,3 +101,15 @@ const checkDogs = function (juliaArr, katArr) {
     );
   });
 };
+const checkDogs2 = function (juliaArr, katArr) {
+  const shallowCopyCats = juliaArr.slice();
+  shallowCopyCats.splice(-2);
+  console.log(shallowCopyCats);
+  const allDogsArr = shallowCopyCats.concat(katArr);
+  allDogsArr.forEach(function (dog, index) {
+    index++;
+    console.log(
+      dog > 3 ? `Cat number ${index} is Adult` : `Dog number ${index} is puppy`
+    );
+  });
+};
