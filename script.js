@@ -80,36 +80,11 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
 };
-
 displayMovements(account1.movements);
-/////////////////////////////////////////////////
 
-const juliaArr = [3, 5, 2, 12, 7];
-const katesArr = [4, 1, 15, 8, 3];
-const juliaArr1 = [9, 16, 6, 8, 3];
-const katesArr1 = [10, 5, 6, 1, 4];
+const dispayBalance = function (movements) {
+  const balance = movements.reduce((acc, curr) => acc + curr, 0);
+  labelBalance.textContent = `$${balance}`;
+};
 
-const checkDogs = function (juliaArr, katArr) {
-  const shallowCopyCats = juliaArr.slice();
-  shallowCopyCats.splice(-2);
-  console.log(shallowCopyCats);
-  const allDogsArr = shallowCopyCats.concat(katArr);
-  allDogsArr.forEach(function (dog, index) {
-    index++;
-    console.log(
-      dog > 3 ? `Dog number ${index} is Adult` : `Dog number ${index} is puppy`
-    );
-  });
-};
-const checkDogs2 = function (juliaArr, katArr) {
-  const shallowCopyCats = juliaArr.slice();
-  shallowCopyCats.splice(-2);
-  console.log(shallowCopyCats);
-  const allDogsArr = shallowCopyCats.concat(katArr);
-  allDogsArr.forEach(function (dog, index) {
-    index++;
-    console.log(
-      dog > 3 ? `Cat number ${index} is Adult` : `Dog number ${index} is puppy`
-    );
-  });
-};
+dispayBalance(movements);
