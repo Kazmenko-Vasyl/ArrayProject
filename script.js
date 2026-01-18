@@ -2,10 +2,11 @@
 
 // Data
 const account1 = {
-  owner: "Jonas Schmedtmann",
+  owner: "vk",
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
+  type: "premium",
 };
 
 const account2 = {
@@ -13,6 +14,7 @@ const account2 = {
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
+  type: "standard",
 };
 
 const account3 = {
@@ -20,6 +22,7 @@ const account3 = {
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+  type: "premium",
 };
 
 const account4 = {
@@ -27,6 +30,7 @@ const account4 = {
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
+  type: "basic",
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -65,6 +69,8 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
+//logic
+
 const displayMovements = function (movements) {
   containerMovements.innerHTML = "";
   movements.forEach(function (movement, index) {
@@ -80,11 +86,82 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
 };
-displayMovements(account1.movements);
 
-const dispayBalance = function (movements) {
-  const balance = movements.reduce((acc, curr) => acc + curr, 0);
-  labelBalance.textContent = `$${balance}`;
+const dispayBalance = function (account) {
+  //mutating the account object here and adding additional parameter
+  account.balance = account.movements.reduce((acc, curr) => acc + curr, 0);
+  labelBalance.textContent = `$${account.balance} USD`;
 };
 
-dispayBalance(movements);
+const displaySummary = function (account) {
+  const deposits = account.movements
+    .filter((e) => e > 0)
+    .reduce((acc, curr) => acc + curr, 0);
+  const withdrawal = account.movements
+    .filter((e) => e < 0)
+    .reduce((acc, curr) => acc + curr, 0);
+
+  const interest = account.movements
+    .map((e) => (e / 100) * account.interestRate)
+    .filter((e) => e > 0)
+    .reduce((acc, curr) => acc + curr, 0);
+
+  labelSumIn.textContent = `${deposits}$`;
+  labelSumOut.textContent = `${withdrawal}$`;
+  labelSumInterest.textContent = `${interest}$`;
+};
+
+const updateUI = function (currectAccount) {
+  displayMovements(currectAccount.movements);
+  dispayBalance(currectAccount);
+  displaySummary(currectAccount);
+};
+// Login functionality
+let currectAccount;
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault();
+  currectAccount = accounts.find(
+    (acc) => acc.owner === inputLoginUsername.value
+  );
+
+  if (currectAccount?.pin === Number(inputLoginPin.value)) {
+    labelWelcome.textContent = `Welcome Back ${
+      currectAccount.owner.split(" ")[0]
+    }`;
+
+    containerApp.style.opacity = 100;
+
+    //clear input fields
+
+    inputLoginUsername.value = inputLoginPin.value = "";
+
+    updateUI(currectAccount);
+  }
+});
+
+btnTransfer.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputTransferAmount.value);
+  const transferToAccount = accounts.find(
+    (acc) => acc.owner === inputTransferTo.value
+  );
+  inputTransferAmount.value.textContent = "";
+  inputTransferTo.value.textContent = "";
+
+  //transfer logic
+  if (
+    amount > 0 &&
+    currectAccount.balance >= amount &&
+    transferToAccount &&
+    transferToAccount?.owner !== currectAccount.owner
+  ) {
+    currectAccount.balance = currectAccount.balance - amount;
+    currectAccount.movements.push(-amount);
+    transferToAccount.balance = transferToAccount.balance + amount;
+    transferToAccount?.movements.push(amount);
+    updateUI(currectAccount);
+  } else {
+    console.log("invalid");
+  }
+});
