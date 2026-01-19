@@ -116,6 +116,7 @@ const updateUI = function (currectAccount) {
   dispayBalance(currectAccount);
   displaySummary(currectAccount);
 };
+
 // Login functionality
 let currectAccount;
 btnLogin.addEventListener("click", function (e) {
@@ -132,9 +133,7 @@ btnLogin.addEventListener("click", function (e) {
     containerApp.style.opacity = 100;
 
     //clear input fields
-
     inputLoginUsername.value = inputLoginPin.value = "";
-
     updateUI(currectAccount);
   }
 });
@@ -165,3 +164,25 @@ btnTransfer.addEventListener("click", function (e) {
     console.log("invalid");
   }
 });
+
+//closing/deleting account
+btnClose.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  if (
+    currectAccount.owner === inputCloseUsername.value &&
+    currectAccount.pin === Number(inputClosePin.value)
+  ) {
+    const index = accounts.findIndex(
+      (acc) => acc.owner === currectAccount.owner
+    );
+    accounts.splice(index, 1);
+
+    containerApp.style.opacity = 0;
+
+    inputCloseUsername.value.textContent = "";
+    inputClosePin.value.textContent = "";
+  }
+});
+
+console.log(movements.lastIndexOf((e) => e > 1000));
