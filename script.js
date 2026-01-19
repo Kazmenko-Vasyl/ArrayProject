@@ -145,8 +145,8 @@ btnTransfer.addEventListener("click", function (e) {
   const transferToAccount = accounts.find(
     (acc) => acc.owner === inputTransferTo.value
   );
-  inputTransferAmount.value.textContent = "";
-  inputTransferTo.value.textContent = "";
+  inputTransferAmount.value = "";
+  inputTransferTo.value = "";
 
   //transfer logic
   if (
@@ -165,6 +165,25 @@ btnTransfer.addEventListener("click", function (e) {
   }
 });
 
+//loan request logic
+btnLoan.addEventListener("click", function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+
+  if (
+    amount > 0 &&
+    amount >
+      currectAccount.movements.some(
+        (deposit) => deposit >= (amount / 100) * 10
+      ) &&
+    currectAccount.movements.every((e) => e !== amount)
+  ) {
+    currectAccount.movements.push(amount);
+    updateUI(currectAccount);
+    inputLoanAmount.value = "";
+  }
+});
+
 //closing/deleting account
 btnClose.addEventListener("click", function (e) {
   e.preventDefault();
@@ -180,9 +199,7 @@ btnClose.addEventListener("click", function (e) {
 
     containerApp.style.opacity = 0;
 
-    inputCloseUsername.value.textContent = "";
-    inputClosePin.value.textContent = "";
+    inputCloseUsername.value = "";
+    inputClosePin.value = "";
   }
 });
-
-console.log(movements.lastIndexOf((e) => e > 1000));
