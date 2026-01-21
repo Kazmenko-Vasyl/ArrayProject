@@ -203,3 +203,36 @@ btnClose.addEventListener("click", function (e) {
     inputClosePin.value = "";
   }
 });
+
+// 1.
+const huskyWeight = breeds.find(
+  (breed) => breed.breed === "Husky"
+).averageWeight;
+console.log(huskyWeight);
+
+// 2.
+const dogBothActivities = breeds.find(
+  (breed) =>
+    breed.activities.includes("fetch") && breed.activities.includes("running")
+).breed;
+console.log(dogBothActivities);
+
+// 3.
+// const allActivities = breeds.map(breed => breed.activities).flat();
+const allActivities = breeds.flatMap((breed) => breed.activities);
+console.log(allActivities);
+
+// 4.
+const uniqueActivities = [...new Set(allActivities)];
+console.log(uniqueActivities);
+
+// 5.
+const swimmingAdjacent = [
+  ...new Set(
+    breeds
+      .filter((breed) => breed.activities.includes("swimming"))
+      .flatMap((breed) => breed.activities)
+      .filter((activity) => activity !== "swimming")
+  ),
+];
+console.log(swimmingAdjacent);
