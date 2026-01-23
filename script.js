@@ -71,9 +71,18 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 //logic
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = "";
-  movements.forEach(function (movement, index) {
+
+  //need slice not to mutate original array and use slice for extra chaining
+  const movs =
+    sort === 1
+      ? movements.slice().sort((a, b) => a - b)
+      : sort === 2
+      ? movements.slice().sort((a, b) => b - a)
+      : movements;
+
+  movs.forEach(function (movement, index) {
     const type = movement > 0 ? "deposit" : "withdrawal";
     index++;
     const html = `
@@ -204,35 +213,25 @@ btnClose.addEventListener("click", function (e) {
   }
 });
 
-// 1.
-const huskyWeight = breeds.find(
-  (breed) => breed.breed === "Husky"
-).averageWeight;
-console.log(huskyWeight);
+const Sorted = {
+  Original: 0,
+  Asc: 1,
+  Dsc: 2,
+};
+let currentSorted = Sorted.Original;
 
-// 2.
-const dogBothActivities = breeds.find(
-  (breed) =>
-    breed.activities.includes("fetch") && breed.activities.includes("running")
-).breed;
-console.log(dogBothActivities);
+btnSort.addEventListener("click", function (e) {
+  e.preventDefault();
 
-// 3.
-// const allActivities = breeds.map(breed => breed.activities).flat();
-const allActivities = breeds.flatMap((breed) => breed.activities);
-console.log(allActivities);
-
-// 4.
-const uniqueActivities = [...new Set(allActivities)];
-console.log(uniqueActivities);
-
-// 5.
-const swimmingAdjacent = [
-  ...new Set(
-    breeds
-      .filter((breed) => breed.activities.includes("swimming"))
-      .flatMap((breed) => breed.activities)
-      .filter((activity) => activity !== "swimming")
-  ),
-];
-console.log(swimmingAdjacent);
+  if (currentSorted === Sorted.Original) {
+    currentSorted = Sorted.Asc;
+    btnSort.innerHTML = "&uparrow; SORT";
+  } else if (currentSorted === Sorted.Asc) {
+    currentSorted = Sorted.Dsc;
+    btnSort.innerHTML = "&downarrow; SORT";
+  } else if (currentSorted === Sorted.Dsc) {
+    currentSorted = Sorted.Original;
+    btnSort.innerHTML = "&harr; SORT";
+  }
+  displayMovements(currectAccount.movements, currentSorted);
+});
