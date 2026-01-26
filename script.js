@@ -235,3 +235,10 @@ btnSort.addEventListener("click", function (e) {
   }
   displayMovements(currectAccount.movements, currentSorted);
 });
+const groupedMovements = Object.groupBy(movements, (mov) =>
+  mov > 0 ? "deposit" : "withdrawal"
+);
+
+const groupedByActivity = Object.groupBy(accounts, (acc) => {
+  const movementCounts = acc.movements.length;
+});
