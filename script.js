@@ -244,6 +244,8 @@ const dogs = [
   { weight: 32, curFood: 340, owners: ["Michael"] },
 ];
 
+// Exercises
+
 // 1.
 dogs.forEach((dog) => (dog.recFood = Math.floor(dog.weight ** 0.75 * 28)));
 console.log(dogs);
