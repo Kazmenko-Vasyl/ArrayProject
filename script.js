@@ -245,6 +245,29 @@ btnSort.addEventListener("click", function (e) {
   displayMovements(currectAccount.movements, currentSorted);
 });
 
+const frags = [
+  { weight: 22, curFood: 250, owners: ["Alice", "Bob"] },
+  { weight: 8, curFood: 200, owners: ["Matilda"] },
+  { weight: 13, curFood: 275, owners: ["Sarah", "John", "Leo"] },
+  { weight: 18, curFood: 244, owners: ["Joe"] },
+  { weight: 32, curFood: 340, owners: ["Michael"] },
+];
+btnSort.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  if (currentSorted === Sorted.Original) {
+    currentSorted = Sorted.Asc;
+    btnSort.innerHTML = "&uparrow; SORT";
+  } else if (currentSorted === Sorted.Asc) {
+    currentSorted = Sorted.Dsc;
+    btnSort.innerHTML = "&downarrow; SORT";
+  } else if (currentSorted === Sorted.Dsc) {
+    currentSorted = Sorted.Original;
+    btnSort.innerHTML = "&harr; SORT";
+  }
+  displayMovements(currectAccount.movements, currentSorted);
+});
+
 const dogs = [
   { weight: 22, curFood: 250, owners: ["Alice", "Bob"] },
   { weight: 8, curFood: 200, owners: ["Matilda"] },
