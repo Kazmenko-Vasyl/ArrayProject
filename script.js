@@ -3,7 +3,7 @@
 // DIFFERENT DATA! Contains movement dates, currency and locale
 
 const account1 = {
-  owner: "Vasyl Kazmenko",
+  owner: "VK",
   movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
   interestRate: 1.2, // %
   pin: 1111,
@@ -98,7 +98,7 @@ const displayMovements = function (movements, sort = false) {
       <div class="movements__row">
           <div class="movements__type movements__type--${type}">${index}  </div>
           <div class="movements__date">3 days ago</div>
-          <div class="movements__value">${movement}</div>
+          <div class="movements__value">${movement.toFixed(2)}</div>
         </div>
     `;
     containerMovements.insertAdjacentHTML("afterbegin", html);
@@ -108,7 +108,7 @@ const displayMovements = function (movements, sort = false) {
 const dispayBalance = function (account) {
   //mutating the account object here and adding additional parameter
   account.balance = account.movements.reduce((acc, curr) => acc + curr, 0);
-  labelBalance.textContent = `$${account.balance} USD`;
+  labelBalance.textContent = `$${account.balance.toFixed(2)} USD`;
 };
 
 const displaySummary = function (account) {
@@ -124,9 +124,9 @@ const displaySummary = function (account) {
     .filter((e) => e > 0)
     .reduce((acc, curr) => acc + curr, 0);
 
-  labelSumIn.textContent = `${deposits}$`;
-  labelSumOut.textContent = `${withdrawal}$`;
-  labelSumInterest.textContent = `${interest}$`;
+  labelSumIn.textContent = `${deposits.toFixed(2)}$`;
+  labelSumOut.textContent = `${withdrawal.toFixed(2)}$`;
+  labelSumInterest.textContent = `${interest.toFixed(2)}$`;
 };
 
 const updateUI = function (currectAccount) {
@@ -186,7 +186,7 @@ btnTransfer.addEventListener("click", function (e) {
 //loan request logic
 btnLoan.addEventListener("click", function (e) {
   e.preventDefault();
-  const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(inputLoanAmount.value);
 
   if (
     amount > 0 &&
