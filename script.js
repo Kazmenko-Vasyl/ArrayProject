@@ -88,8 +88,8 @@ const displayMovements = function (movements, sort = false) {
     sort === 1
       ? movements.slice().sort((a, b) => a - b)
       : sort === 2
-      ? movements.slice().sort((a, b) => b - a)
-      : movements;
+        ? movements.slice().sort((a, b) => b - a)
+        : movements;
 
   movs.forEach(function (movement, index) {
     const type = movement > 0 ? "deposit" : "withdrawal";
@@ -140,7 +140,7 @@ let currectAccount;
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
   currectAccount = accounts.find(
-    (acc) => acc.owner === inputLoginUsername.value
+    (acc) => acc.owner === inputLoginUsername.value,
   );
 
   if (currectAccount?.pin === Number(inputLoginPin.value)) {
@@ -161,7 +161,7 @@ btnTransfer.addEventListener("click", function (e) {
 
   const amount = Number(inputTransferAmount.value);
   const transferToAccount = accounts.find(
-    (acc) => acc.owner === inputTransferTo.value
+    (acc) => acc.owner === inputTransferTo.value,
   );
   inputTransferAmount.value = "";
   inputTransferTo.value = "";
@@ -184,6 +184,7 @@ btnTransfer.addEventListener("click", function (e) {
 });
 
 //loan request logic
+
 btnLoan.addEventListener("click", function (e) {
   e.preventDefault();
   const amount = Math.floor(inputLoanAmount.value);
@@ -192,7 +193,7 @@ btnLoan.addEventListener("click", function (e) {
     amount > 0 &&
     amount >
       currectAccount.movements.some(
-        (deposit) => deposit >= (amount / 100) * 10
+        (deposit) => deposit >= (amount / 100) * 10,
       ) &&
     currectAccount.movements.every((e) => e !== amount)
   ) {
@@ -211,7 +212,7 @@ btnClose.addEventListener("click", function (e) {
     currectAccount.pin === Number(inputClosePin.value)
   ) {
     const index = accounts.findIndex(
-      (acc) => acc.owner === currectAccount.owner
+      (acc) => acc.owner === currectAccount.owner,
     );
     accounts.splice(index, 1);
 
